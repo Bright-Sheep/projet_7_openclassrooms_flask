@@ -7,11 +7,10 @@ st.set_page_config(
     layout="centered",  # wide
     initial_sidebar_state="auto")  # collapsed
 
-st.markdown("# Importance des caractéristiques locales")
 
-st.sidebar.markdown(f"""
-    # Paramètres
-    """)
+
+
+
 
 if 'my_params_1' not in st.session_state:
     st.session_state.my_params_1 = 5
@@ -26,6 +25,20 @@ st.session_state.my_id_2 = id_client
 
 url = f'http://127.0.0.1:5000/id_local_params/?SK_ID_CURR={id_client}&NB_FEATURE={nb_params}'
 response = requests.get(url).json()["local_weight"]
+
+st.markdown("# Demande de crédit :")
+st.markdown("Votre demande de crédit est :")
+
+if response != -1:
+    pred = requests.get(url).json()["prediction"]
+    if pred == 0:
+        st.markdown('Accordé !')
+    else :
+        st.markdown('Refusé...')
+else :
+    st.text('Client non trouvé. Veuillez le rajouter à la base de données.')
+
+st.markdown("## Importance des caractéristiques locales")
 
 if response != -1:
     st.components.v1.html(response, width=1100, height=1000, scrolling=True)

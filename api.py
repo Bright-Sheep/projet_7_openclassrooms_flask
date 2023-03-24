@@ -6,7 +6,7 @@ import numpy as np
 import json
 import re
 
-data = pd.read_csv('dashboard\example_data.csv')
+data = pd.read_csv('dashboard\example_data.csv').drop(['TARGET'],axis=1)
 train_data = pd.read_csv('dashboard\data_train.csv')
 my_pipeline = pickle.load(open("dashboard/pipeline_roc.pkl","rb"))
 app = Flask(__name__)
@@ -41,7 +41,9 @@ def get_local_params():
  if(id_data.shape[0]==1):
     id_data_np = np.array(id_data.drop(["SK_ID_CURR"], axis=1))[0]
     explanation = explainer.explain_instance(id_data_np, my_pipeline.predict_proba,num_features=nb)
-    return jsonify({'local_weight': explanation.as_html()})
+    pred = my_pipeline.predict(id_data.drop(["SK_ID_CURR"], axis=1))[0]
+    return jsonify({'local_weight': explanation.as_html(),
+                    'prediction':pred})
  else:
     explanation = -1
     return jsonify({'local_weight': explanation})
