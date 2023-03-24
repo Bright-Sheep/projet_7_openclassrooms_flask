@@ -3,21 +3,16 @@ import requests
 
 st.set_page_config(
     page_title="Quick reference",  # => Quick reference - Streamlit
-    page_icon="🐍",
+    page_icon=":smiley:",
     layout="centered",  # wide
     initial_sidebar_state="auto")  # collapsed
-
-
-
-
-
 
 if 'my_params_1' not in st.session_state:
     st.session_state.my_params_1 = 5
 if 'my_id_1' not in st.session_state:
     st.session_state.my_id_1 = 100043
 
-nb_params = st.sidebar.slider('Sélectionner le nombre de paramètres à afficher', 1, 20, st.session_state.my_params_1)
+nb_params = st.sidebar.slider("Sélectionnez l'ID du client", 1, 20, st.session_state.my_params_1)
 st.session_state.my_params_2 = nb_params
 
 id_client = st.sidebar.number_input('Id du client',min_value=0,value=st.session_state.my_id_1)
@@ -27,14 +22,14 @@ url = f'http://127.0.0.1:5000/id_local_params/?SK_ID_CURR={id_client}&NB_FEATURE
 response = requests.get(url).json()["local_weight"]
 
 st.markdown("# Demande de crédit :")
-st.markdown("Votre demande de crédit est :")
 
 if response != -1:
     pred = requests.get(url).json()["prediction"]
+    st.markdown("Votre demande de crédit est :")
     if pred == 0:
-        st.markdown('Accordé !')
+        st.success('Accordé !')
     else :
-        st.markdown('Refusé...')
+        st.error('Refusé...')
 else :
     st.text('Client non trouvé. Veuillez le rajouter à la base de données.')
 

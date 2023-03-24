@@ -6,7 +6,7 @@ import numpy as np
 import json
 import re
 
-data = pd.read_csv('dashboard\example_data.csv').drop(['TARGET'],axis=1)
+data = pd.read_csv('dashboard\example_data.csv')#.drop(['TARGET'],axis=1)
 train_data = pd.read_csv('dashboard\data_train.csv')
 my_pipeline = pickle.load(open("dashboard/pipeline_roc.pkl","rb"))
 app = Flask(__name__)
@@ -39,9 +39,9 @@ def get_local_params():
                                                )
  id_data = data[data['SK_ID_CURR'] == id]
  if(id_data.shape[0]==1):
-    id_data_np = np.array(id_data.drop(["SK_ID_CURR"], axis=1))[0]
+    id_data_np = np.array(id_data.drop(["SK_ID_CURR",'TARGET'], axis=1))[0]
     explanation = explainer.explain_instance(id_data_np, my_pipeline.predict_proba,num_features=nb)
-    pred = my_pipeline.predict(id_data.drop(["SK_ID_CURR"], axis=1))[0]
+    pred = my_pipeline.predict(id_data.drop(["SK_ID_CURR",'TARGET'], axis=1))[0]
     return jsonify({'local_weight': explanation.as_html(),
                     'prediction':pred})
  else:
@@ -60,6 +60,7 @@ def get_global_params():
 # test local :http://127.0.0.1:5000/id_data_needed/?SK_ID_CURR=100043&NB_FEATURE=5
 @app.route('/id_data_needed/')
 def get_data_with_params():
+ # Api pour récupérer les data des crédits accordé et les data des crédits refusés et les données du client
  id = int(request.args.get('SK_ID_CURR'))
  nb = int(request.args.get('NB_FEATURE'))
  classe = ['Crédit accordé', 'Crédit refusé']
@@ -69,7 +70,9 @@ def get_data_with_params():
                                                )
  id_data = data[data['SK_ID_CURR'] == id]
  if(id_data.shape[0]==1):
-    id_data_np = np.array(id_data.drop(["SK_ID_CURR"], axis=1))[0]
+    data_acc =  data[data['TARGET'] == 0]
+    data_ref = data[data['TARGET'] == 1]
+    id_data_np = np.array(id_data.drop(["SK_ID_CURR",'TARGET'], axis=1))[0]
     explanation = explainer.explain_instance(id_data_np, my_pipeline.predict_proba,num_features=nb)
     feature = []
     for i in explanation.as_list():
@@ -77,9 +80,11 @@ def get_data_with_params():
             feature.append(re.split('>|<', i[0])[0].strip())
         else:
             feature.append(re.split('>|<', i[0])[1].strip())
-    return jsonify({'data': data[feature].to_json(orient='records'),
+    return jsonify({'data_acc': data_acc[feature].to_json(orient='records'),
+                    'data_ref': data_ref[feature].to_json(orient='records'),
                     'id_data':id_data.to_json(orient='records')})
  else:
-    return jsonify({'data': -1})
+    return jsonify({'data_acc': -1,
+                    'data_ref':-1})
 
 app.run()
