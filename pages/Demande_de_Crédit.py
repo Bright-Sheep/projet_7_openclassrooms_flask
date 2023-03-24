@@ -7,20 +7,24 @@ st.set_page_config(
     layout="centered",  # wide
     initial_sidebar_state="auto")  # collapsed
 
+# On initialise les paramètres globaux au cas où on recharge la page
 if 'my_params_1' not in st.session_state:
     st.session_state.my_params_1 = 5
 if 'my_id_1' not in st.session_state:
     st.session_state.my_id_1 = 100043
 
-nb_params = st.sidebar.slider("Sélectionnez l'ID du client", 1, 20, st.session_state.my_params_1)
+# Barre latérale
+nb_params = st.sidebar.slider("Sélectionner le nombre de paramètres à afficher", 1, 20, st.session_state.my_params_1)
 st.session_state.my_params_2 = nb_params
 
 id_client = st.sidebar.number_input('Id du client',min_value=0,value=st.session_state.my_id_1)
 st.session_state.my_id_2 = id_client
 
+# On fait la requête à l'url
 url = f'http://127.0.0.1:5000/id_local_params/?SK_ID_CURR={id_client}&NB_FEATURE={nb_params}'
 response = requests.get(url).json()["local_weight"]
 
+# On vérifie que la requête a abouti et on annonce si le crédit a été refusé ou accepté
 st.markdown("# Demande de crédit :")
 
 if response != -1:
@@ -33,6 +37,7 @@ if response != -1:
 else :
     st.text('Client non trouvé. Veuillez le rajouter à la base de données.')
 
+# On affiche le rapport des caractéristiques locales
 st.markdown("## Importance des caractéristiques locales")
 
 if response != -1:

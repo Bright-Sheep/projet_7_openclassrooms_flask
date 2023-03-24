@@ -8,6 +8,7 @@ import seaborn as sns
 
 st.set_page_config(page_title="Répartition", page_icon="📈")
 
+# On initialise les paramètres globaux au cas où on recharge la page
 if 'my_params_2' not in st.session_state:
     st.session_state.my_params_2 = 5
 if 'my_id_2' not in st.session_state:
@@ -30,14 +31,14 @@ st.session_state.my_id_1 = id_client
 # On fait la requête à l'url
 url = f'http://127.0.0.1:5000/id_data_needed/?SK_ID_CURR={id_client}&NB_FEATURE={nb_params}'
 
-# On séléctionne si on veut les données des crédits refusé ou accepté
+# On sélectionne si on veut les données des crédits refusés ou acceptés
 direction = st.radio('Selectionner une comparaison :', ('Crédit accepté','Crédit refusé'))
 if direction == 'Crédit accepté':
     response = requests.get(url).json()["data_acc"]
 else :
     response = requests.get(url).json()["data_ref"]
 
-# On vérifie que la requête à donné un résultat et on affiche les graphiques
+# On vérifie que la requête a donné un résultat et on affiche les graphiques
 if response != -1:
     data_client =requests.get(url).json()["id_data"]
     client_json = json.loads(data_client)
