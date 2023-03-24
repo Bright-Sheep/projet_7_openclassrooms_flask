@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 st.set_page_config(
-    page_title="Quick reference",  # => Quick reference - Streamlit
+    page_title="Autorisation de crédit",  # => Quick reference - Streamlit
     page_icon=":smiley:",
     layout="centered",  # wide
     initial_sidebar_state="auto")  # collapsed
