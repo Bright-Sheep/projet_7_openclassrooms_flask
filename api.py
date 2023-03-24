@@ -49,6 +49,7 @@ def get_local_params():
     return jsonify({'local_weight': explanation})
 
 # test local : http://127.0.0.1:5000/id_global_params/
+#Hello
 @app.route('/id_global_params/')
 def get_global_params():
  lr = my_pipeline.best_estimator_.named_steps['classification']
