@@ -15,7 +15,7 @@ if 'my_id_2' not in st.session_state:
     st.session_state.my_id_2 = 100043
 
 # Titre de la page
-st.markdown("# Répartition des caractéristiques locales")
+st.markdown("# Répartition des caractéristiques")
 
 st.markdown("Comment vous situez-vous par rapport aux autres clients ?")
 # Barre latérale
