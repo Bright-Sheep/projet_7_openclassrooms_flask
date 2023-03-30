@@ -27,7 +27,7 @@ def get_score():
  id = int(request.args.get('SK_ID_CURR'))
  id_data = data[data['SK_ID_CURR']==id]
  if(id_data.shape[0]==1):
-  prediction = int(my_pipeline.predict(id_data.drop(["SK_ID_CURR"], axis=1))[0])
+  prediction = int(my_pipeline.predict(id_data.drop(["SK_ID_CURR",'TARGET'], axis=1))[0])
  else:
   prediction = -1
 
