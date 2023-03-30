@@ -100,4 +100,5 @@ def get_data_with_params():
     return jsonify({'data_acc': -1,
                     'data_ref':-1})
 """
-app.run()
+if __name__=='__main__':
+    app.run(debug=True)
