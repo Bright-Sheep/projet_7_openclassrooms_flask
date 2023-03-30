@@ -12,7 +12,7 @@ import re
 #my_pipeline = pickle.load(open("/data/pipeline_roc.pkl","rb"))
 app = Flask(__name__)
 app.config["DEBUG"] = True
-
+"""
 @app.route('/')
 # API si aucune requête n'est entré
 def home():
@@ -99,5 +99,5 @@ def get_data_with_params():
  else:
     return jsonify({'data_acc': -1,
                     'data_ref':-1})
-
+"""
 app.run()
