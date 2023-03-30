@@ -12,12 +12,12 @@ import re
 #my_pipeline = pickle.load(open("/data/pipeline_roc.pkl","rb"))
 app = Flask(__name__)
 app.config["DEBUG"] = True
-"""
+
 @app.route('/')
 # API si aucune requête n'est entré
 def home():
  return "<h1>Distant Reading Archive</h1><p>Bonjour. Veuiller faire une requête.</p>"
-
+"""
 # test local :http://127.0.0.1:5000/id_score/?SK_ID_CURR=100043
 @app.route('/id_score/')
 # Renvoie si le client a été autorisé à faire son crédit ou non
