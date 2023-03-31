@@ -7,9 +7,9 @@ import json
 import re
 
 # On récupère les données et on configure l'API
-#data = pd.read_csv('/data/example_data.csv')
-#train_data = pd.read_csv('/data/data_train.csv')
-#my_pipeline = pickle.load(open("/data/pipeline_roc.pkl","rb"))
+data = pd.read_csv('/data/example_data.csv')
+train_data = pd.read_csv('/data/data_train.csv')
+my_pipeline = pickle.load(open("/data/pipeline_roc.pkl","rb"))
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
@@ -101,4 +101,4 @@ def get_data_with_params():
                     'data_ref':-1})
 
 if __name__ == '__main__':
-    app.run(threaded=True, port=5000)
+    app.run()
