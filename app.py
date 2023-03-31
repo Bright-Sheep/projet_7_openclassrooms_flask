@@ -3,7 +3,6 @@ import pandas as pd
 import pickle
 from lime import lime_tabular
 import numpy as np
-import json
 import re
 
 # On récupère les données et on configure l'API
