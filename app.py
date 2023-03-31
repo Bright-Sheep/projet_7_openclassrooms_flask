@@ -8,6 +8,9 @@ import re
 # On récupère les données et on configure l'API
 data = pd.read_csv('data/example_data.csv')
 train_data = pd.read_csv('data/data_train.csv')
+path = 'data/pipeline_roc.pkl'
+with open(path, "rb") as model_file:
+    my_pipeline = pickle.load(model_file)
 #my_pipeline = pickle.load(open("data/pipeline_roc.pkl","rb"))
 app = Flask(__name__)
 app.config["DEBUG"] = True
